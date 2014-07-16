@@ -39,27 +39,9 @@ import GHC.Word        ( Word8(..) )
 -- readable.)
 
 data a :. b = !a :. !b
-  deriving (Eq,Ord,Read)
+  deriving (Eq,Ord,Read,Show)
 
 infixr :.
-
---derived show outputs in prefix notation
-instance (Show a, ShowVec v) => Show (a:.v) where
-  show (a:.v) = "(" ++ show a ++ "):." ++ showVec v
-
-
--- Helper to keep parentheses at bay. Just use @show@ as usual.
-class ShowVec  v where
-  showVec :: v -> String
-
-instance ShowVec () where
-  showVec = show
-  {-# INLINE showVec #-}
-
-instance (Show a, ShowVec v) => ShowVec (a:.v) where
-  showVec (a:.v) = "(" ++ show a ++ "):." ++ showVec v
-  {-# INLINE showVec #-}
-
 
 -- * Vector Types
 type Vec2  a = a :. a :. ()
